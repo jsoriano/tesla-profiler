@@ -21,12 +21,13 @@ public class LifecycleProfiler extends AbstractEventSpy {
 
   @Override
   public void init(Context context) throws Exception {
+    super.init(context);
     renderer = new SessionProfileRenderer();
   }
 
   @Override
   public void onEvent(Object event) throws Exception {
-    if (event instanceof ExecutionEvent) {      
+    if (event instanceof ExecutionEvent) {
       ExecutionEvent executionEvent = (ExecutionEvent) event;
 
       if (executionEvent.getType() == ExecutionEvent.Type.SessionStarted) {
@@ -56,7 +57,7 @@ public class LifecycleProfiler extends AbstractEventSpy {
         } else if (!phaseProfile.getPhase().equals(phase)) {
           phaseProfile.stop();
           projectProfile.addPhaseProfile(phaseProfile);
-          phaseProfile = new PhaseProfile(phase);          
+          phaseProfile = new PhaseProfile(phase);
         }
         mojoProfile = new MojoProfile(executionEvent.getMojoExecution());
 
@@ -67,7 +68,7 @@ public class LifecycleProfiler extends AbstractEventSpy {
       }
     }
   }
-  
+
 
   @Override
   public void close() throws Exception {

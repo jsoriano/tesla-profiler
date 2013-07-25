@@ -1,5 +1,7 @@
 package io.tesla.lifecycle.profiler;
 
+import java.io.OutputStream;
+
 import junit.framework.TestCase;
 
 import org.apache.maven.model.Plugin;
@@ -8,11 +10,11 @@ import org.apache.maven.project.MavenProject;
 
 
 public class LifecycleProfilerTest extends TestCase {
-  
+
   public void testSessionProfile() {
-    
+
     SessionProfile s = new SessionProfile();
-    
+
     ProjectProfile p0 = new ProjectProfile(project("g0", "a0", "v0"));
     PhaseProfile ph0 = new PhaseProfile("phase0");
     MojoProfile m0 = new MojoProfile(mojoExecution("goal0","m0"));
@@ -23,7 +25,7 @@ public class LifecycleProfilerTest extends TestCase {
     ph0.addMojoProfile(m00);
     p0.addPhaseProfile(ph0);
     s.addProjectProfile(p0);
-    
+
     ProjectProfile p1 = new ProjectProfile(project("g1", "a1", "v1"));
     PhaseProfile ph1 = new PhaseProfile("phase1");
     MojoProfile m1 = new MojoProfile(mojoExecution("goal1", "m1"));
@@ -39,11 +41,14 @@ public class LifecycleProfilerTest extends TestCase {
     ph2.addMojoProfile(m2);
     p2.addPhaseProfile(ph2);
     s.addProjectProfile(p2);
-    
-    SessionProfileRenderer r = new SessionProfileRenderer();
+
+    SessionProfileRenderer r = new SessionProfileRenderer( new OutputStream() {
+      @Override
+      public void write(int b) { }
+    });
     r.render(s);
   }
-  
+
   protected MavenProject project(String g, String a, String v) {
     MavenProject p = new MavenProject();
     p.setGroupId(g);
@@ -51,13 +56,13 @@ public class LifecycleProfilerTest extends TestCase {
     p.setVersion(v);
     return p;
   }
-  
+
   protected MojoExecution mojoExecution(String goal, String executionId) {
     Plugin p = new Plugin();
     p.setGroupId("groupId");
     p.setArtifactId("artifactId");
     p.setVersion("version");
     MojoExecution me = new MojoExecution(p, goal, executionId);
-    return me;        
+    return me;
   }
 }

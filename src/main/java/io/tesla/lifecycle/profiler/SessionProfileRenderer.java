@@ -1,22 +1,34 @@
 package io.tesla.lifecycle.profiler;
 
+import java.io.OutputStream;
+import java.io.PrintStream;
+
 public class SessionProfileRenderer {
+  private PrintStream output;
+
+  public SessionProfileRenderer() {
+    this.output = System.out;
+  }
+
+  public SessionProfileRenderer(OutputStream output) {
+    this.output = new PrintStream(output);
+  }
 
   public void render(SessionProfile sessionProfile) {
-    
+    StringBuilder sb = new StringBuilder();
     for(ProjectProfile pp : sessionProfile.getProjectProfiles()) {
-      render(pp.getProjectName());
+      sb.append(pp.getProjectName() + "\n");
       for(PhaseProfile phaseProfile : pp.getPhaseProfile()) {
-        render("  " + phaseProfile.getPhase() + " " + Timer.formatTime(phaseProfile.getElapsedTime()));
+        sb.append("  " + phaseProfile.getPhase() + " " + Timer.formatTime(phaseProfile.getElapsedTime()) + "\n");
         for(MojoProfile mp : phaseProfile.getMojoProfiles()) {
-          render("    " + mp.getId() + Timer.formatTime(mp.getElapsedTime())); 
+          sb.append("    " + mp.getId() + Timer.formatTime(mp.getElapsedTime()) + "\n");
         }
       }
-      render("");
+      render(sb.toString());
     }
   }
-  
+
   private void render(String s) {
-    System.out.println(s);
+    output.println(s);
   }
 }
