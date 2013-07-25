@@ -1,6 +1,6 @@
 package io.tesla.lifecycle.profiler;
 
-public class Profile {
+public abstract class Profile {
   
   protected long elapsedTime;
   protected Timer timer;
