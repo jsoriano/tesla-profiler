@@ -42,7 +42,7 @@ public class LifecycleProfilerTest extends TestCase {
     p2.addPhaseProfile(ph2);
     s.addProjectProfile(p2);
 
-    SessionProfileRenderer r = new SessionProfileRenderer( new OutputStream() {
+    SessionProfileFileWriter r = new SessionProfileFileWriter( new OutputStream() {
       @Override
       public void write(int b) { }
     });

@@ -2,11 +2,21 @@
 <component-set>
   <components>
     <component>
+      <role>io.tesla.lifecycle.profiler.SessionProfileRenderer</role>
+      <role-hint>file-writer</role-hint>
+      <implementation>io.tesla.lifecycle.profiler.SessionProfileFileWriter</implementation>
+    </component>
+    <component>
       <role>org.apache.maven.eventspy.EventSpy</role>
-      <role-hint>default</role-hint>
+      <role-hint>tesla-profiler</role-hint>
       <implementation>io.tesla.lifecycle.profiler.LifecycleProfiler</implementation>
-      <description />
       <isolated-realm>false</isolated-realm>
+      <requirements>
+        <requirement>
+          <role>io.tesla.lifecycle.profiler.SessionProfileRenderer</role>
+          <role-hint>file-writer</role-hint>
+        </requirement>
+      </requirements>
     </component>
   </components>
 </component-set>

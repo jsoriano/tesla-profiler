@@ -22,7 +22,6 @@ public class LifecycleProfiler extends AbstractEventSpy {
   @Override
   public void init(Context context) throws Exception {
     super.init(context);
-    renderer = new SessionProfileRenderer();
   }
 
   @Override
