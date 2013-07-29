@@ -25,4 +25,8 @@ public class PhaseProfile extends Profile {
   public List<MojoProfile> getMojoProfiles() {
     return mojoProfiles;
   }
+
+  public String getName() {
+    return phase;
+  }
 }

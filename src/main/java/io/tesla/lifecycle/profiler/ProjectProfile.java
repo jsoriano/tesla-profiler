@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.apache.maven.project.MavenProject;
 
-public class ProjectProfile extends Profile {
+public class ProjectProfile extends Profile implements ArtifactProfile {
 
   private MavenProject project;
   private List<PhaseProfile> phaseProfiles;
@@ -20,8 +20,20 @@ public class ProjectProfile extends Profile {
     phaseProfiles.add(phaseProfile);
   }
 
-  public String getProjectName() {
-    return project.getGroupId() + ":" + project.getArtifactId() + ":" + project.getVersion();
+  public String getVersion() {
+    return project.getVersion();
+  }
+
+  public String getGroupId() {
+    return project.getGroupId();
+  }
+
+  public String getId() {
+    return getGroupId() + ":" + getName() + ":" + getVersion();
+  }
+
+  public String getName() {
+    return project.getArtifactId();
   }
 
   public List<PhaseProfile> getPhaseProfile() {

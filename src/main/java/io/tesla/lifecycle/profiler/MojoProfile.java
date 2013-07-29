@@ -2,7 +2,7 @@ package io.tesla.lifecycle.profiler;
 
 import org.apache.maven.plugin.MojoExecution;
 
-public class MojoProfile extends Profile {
+public class MojoProfile extends Profile implements ArtifactProfile {
 
   private MojoExecution mojoExecution;
 
@@ -11,8 +11,23 @@ public class MojoProfile extends Profile {
     this.mojoExecution = mojoExecution;
   }
 
-  public String getId() {
-    return mojoExecution.getGroupId() + ":" + mojoExecution.getArtifactId() + ":" + mojoExecution.getVersion() + " (" + mojoExecution.getExecutionId() + ") ";
+  public String getName() {
+    return mojoExecution.getArtifactId();
   }
 
+  public String getGroupId() {
+    return mojoExecution.getGroupId();
+  }
+
+  public String getVersion() {
+    return mojoExecution.getVersion();
+  }
+
+  public String getExecutionId() {
+    return mojoExecution.getExecutionId();
+ }
+
+  public String getId() {
+    return getGroupId() + ":" + getName() + ":" + getVersion() + " (" + mojoExecution.getExecutionId() + ")";
+  }
 }

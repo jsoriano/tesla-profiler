@@ -5,6 +5,17 @@
       <role>io.tesla.lifecycle.profiler.SessionProfileRenderer</role>
       <role-hint>file-writer</role-hint>
       <implementation>io.tesla.lifecycle.profiler.SessionProfileFileWriter</implementation>
+      <configuration>
+      	<filename>profile.out</filename>
+      </configuration>
+    </component>
+    <component>
+      <role>io.tesla.lifecycle.profiler.SessionProfileRenderer</role>
+      <role-hint>xml-writer</role-hint>
+      <implementation>io.tesla.lifecycle.profiler.SessionProfileXmlWriter</implementation>
+      <configuration>
+      	<filename>profile.xml</filename>
+      </configuration>
     </component>
     <component>
       <role>org.apache.maven.eventspy.EventSpy</role>
@@ -14,7 +25,7 @@
       <requirements>
         <requirement>
           <role>io.tesla.lifecycle.profiler.SessionProfileRenderer</role>
-          <role-hint>file-writer</role-hint>
+          <role-hint>xml-writer</role-hint>
         </requirement>
       </requirements>
     </component>
