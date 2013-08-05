@@ -9,21 +9,21 @@ public class ProjectProfile extends Profile implements ArtifactProfile {
 
   private MavenProject project;
   private List<PhaseProfile> phaseProfiles;
-  private ArrayList<MojoProfile> mojoProfiles;
+  private ArrayList<GoalProfile> goalProfiles;
 
   public ProjectProfile(MavenProject project) {
     super(new Timer());
     this.project = project;
     this.phaseProfiles = new ArrayList<PhaseProfile>();
-    this.mojoProfiles = new ArrayList<MojoProfile>();
+    this.goalProfiles = new ArrayList<GoalProfile>();
   }
 
   public void addPhaseProfile(PhaseProfile phaseProfile) {
     phaseProfiles.add(phaseProfile);
   }
 
-  public void addMojoProfile(MojoProfile mojoProfile) {
-    mojoProfiles.add(mojoProfile);
+  public void addGoalProfile(GoalProfile goalProfile) {
+    goalProfiles.add(goalProfile);
   }
 
   public String getVersion() {
@@ -42,11 +42,11 @@ public class ProjectProfile extends Profile implements ArtifactProfile {
     return project.getArtifactId();
   }
 
-  public List<PhaseProfile> getPhaseProfile() {
+  public List<PhaseProfile> getPhaseProfiles() {
     return phaseProfiles;
   }
 
-  public List<MojoProfile> getMojoProfiles() {
-    return mojoProfiles;
+  public List<GoalProfile> getGoalProfiles() {
+    return goalProfiles;
   }
 }

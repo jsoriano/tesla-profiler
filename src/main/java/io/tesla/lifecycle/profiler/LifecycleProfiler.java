@@ -15,7 +15,7 @@ import org.apache.maven.execution.ExecutionEvent;
 public class LifecycleProfiler extends AbstractEventSpy {
   private SessionProfile sessionProfile;
   private ProjectProfile projectProfile;
-  private PhaseProfile phaseProfile;
+  private AbstractMojoParent mojoParent;
   private MojoProfile mojoProfile;
   private SessionProfileRenderer renderer;
 
@@ -47,34 +47,22 @@ public class LifecycleProfiler extends AbstractEventSpy {
         sessionProfile.addProjectProfile(projectProfile);
 
       } else if (executionEvent.getType() == ExecutionEvent.Type.MojoStarted) {
-        String phase = executionEvent.getMojoExecution().getLifecyclePhase();
+        AbstractMojoParent nextMojoParent = MojoParentFactory.getMojoParent(executionEvent.getMojoExecution());
         //
         // Create a new phase profile if one doesn't exist or the phase has changed.
         //
-        if (phase == null) {
-          if (phaseProfile != null) {
-            phaseProfile.stop();
-            projectProfile.addPhaseProfile(phaseProfile);
-            phaseProfile = null;
-          }
-        } else {
-          if (phaseProfile == null) {
-            phaseProfile = new PhaseProfile(phase);
-          } else if (!phaseProfile.getPhase().equals(phase)) {
-            phaseProfile.stop();
-            projectProfile.addPhaseProfile(phaseProfile);
-            phaseProfile = new PhaseProfile(phase);
-          }
+        if (mojoParent == null) {
+          mojoParent = nextMojoParent;
+        } else if (!mojoParent.getName().equals(nextMojoParent.getName())) {
+          mojoParent.stop();
+          mojoParent.addToProjectProfile(projectProfile);
+          mojoParent = nextMojoParent;
         }
         mojoProfile = new MojoProfile(executionEvent.getMojoExecution());
 
       } else if (executionEvent.getType() == ExecutionEvent.Type.MojoSucceeded || executionEvent.getType() == ExecutionEvent.Type.MojoFailed) {
         mojoProfile.stop();
-        if (phaseProfile == null) {
-          projectProfile.addMojoProfile(mojoProfile);
-        } else {
-          phaseProfile.addMojoProfile(mojoProfile);
-        }
+        mojoParent.addMojoProfile(mojoProfile);
       }
     }
   }

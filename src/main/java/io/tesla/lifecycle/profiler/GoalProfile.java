@@ -3,14 +3,13 @@ package io.tesla.lifecycle.profiler;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PhaseProfile extends AbstractMojoParent {
-
-  private String phase;
+public class GoalProfile extends AbstractMojoParent {
+  private String goal;
   private List<MojoProfile> mojoProfiles;
 
-  public PhaseProfile(String phase) {
+  public GoalProfile(String phase) {
     super(new Timer());
-    this.phase = phase;
+    this.goal = phase;
     this.mojoProfiles = new ArrayList<MojoProfile>();
   }
 
@@ -18,8 +17,8 @@ public class PhaseProfile extends AbstractMojoParent {
     mojoProfiles.add(mojoProfile);
   }
 
-  public String getPhase() {
-    return phase;
+  public String getGoal() {
+    return goal;
   }
 
   public List<MojoProfile> getMojoProfiles() {
@@ -27,10 +26,10 @@ public class PhaseProfile extends AbstractMojoParent {
   }
 
   public String getName() {
-    return phase;
+    return goal;
   }
 
   public void addToProjectProfile(ProjectProfile projectProfile) {
-    projectProfile.addPhaseProfile(this);
+    projectProfile.addGoalProfile(this);
   }
 }

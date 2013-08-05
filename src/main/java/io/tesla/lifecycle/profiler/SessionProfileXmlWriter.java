@@ -74,16 +74,16 @@ public class SessionProfileXmlWriter extends SessionProfileFileWriter {
     return mojo;
   }
 
-  private Element renderPhase(Document document, PhaseProfile phaseProfile) {
-    Element phase = document.createElement("phase");
-    addChildToElement(document, phase, "name", phaseProfile.getName());
-    addChildToElement(document, phase, "time", String.valueOf(phaseProfile.getElapsedTime()));
+  private Element renderMojoParent(String type, Document document, AbstractMojoParent mojoParent) {
+    Element phase = document.createElement(type);
+    addChildToElement(document, phase, "name", mojoParent.getName());
+    addChildToElement(document, phase, "time", String.valueOf(mojoParent.getElapsedTime()));
 
-    Element phases = document.createElement("mojos");
-    for (MojoProfile mojoProfile : phaseProfile.getMojoProfiles()) {
-        phases.appendChild(renderMojo(document, mojoProfile));
+    Element mojos = document.createElement("mojos");
+    for (MojoProfile mojoProfile : mojoParent.getMojoProfiles()) {
+        mojos.appendChild(renderMojo(document, mojoProfile));
     }
-    phase.appendChild(phases);
+    phase.appendChild(mojos);
 
     return phase;
   }
@@ -93,16 +93,16 @@ public class SessionProfileXmlWriter extends SessionProfileFileWriter {
     fillArtifactChildren(document, project, projectProfile);
 
     Element phases = document.createElement("phases");
-    for (PhaseProfile phaseProfile : projectProfile.getPhaseProfile()) {
-        phases.appendChild(renderPhase(document, phaseProfile));
+    for (PhaseProfile phaseProfile : projectProfile.getPhaseProfiles()) {
+        phases.appendChild(renderMojoParent("phase", document, phaseProfile));
     }
     project.appendChild(phases);
 
-    Element mojos = document.createElement("mojos");
-    for (MojoProfile mojoProfile : projectProfile.getMojoProfiles()) {
-      phases.appendChild(renderMojo(document, mojoProfile));
+    Element goals = document.createElement("goals");
+    for (GoalProfile goalProfile : projectProfile.getGoalProfiles()) {
+      goals.appendChild(renderMojoParent("goal", document, goalProfile));
     }
-    project.appendChild(mojos);
+    project.appendChild(goals);
 
     return project;
   }
