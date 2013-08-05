@@ -30,6 +30,9 @@ public class SessionProfileFileWriter implements SessionProfileRenderer {
           sb.append("    " + mp.getId() + Timer.formatTime(mp.getElapsedTime()) + "\n");
         }
       }
+      for(MojoProfile mp : pp.getMojoProfiles()) {
+        sb.append("  " + mp.getId() + Timer.formatTime(mp.getElapsedTime()) + "\n");
+      }
       render(sb.toString());
     }
   }

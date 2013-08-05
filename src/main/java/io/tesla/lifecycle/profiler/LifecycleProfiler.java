@@ -51,19 +51,30 @@ public class LifecycleProfiler extends AbstractEventSpy {
         //
         // Create a new phase profile if one doesn't exist or the phase has changed.
         //
-        if(phaseProfile == null) {
-          phaseProfile = new PhaseProfile(phase);
-        } else if (!phaseProfile.getPhase().equals(phase)) {
-          phaseProfile.stop();
-          projectProfile.addPhaseProfile(phaseProfile);
-          phaseProfile = new PhaseProfile(phase);
+        if (phase == null) {
+          if (phaseProfile != null) {
+            phaseProfile.stop();
+            projectProfile.addPhaseProfile(phaseProfile);
+            phaseProfile = null;
+          }
+        } else {
+          if (phaseProfile == null) {
+            phaseProfile = new PhaseProfile(phase);
+          } else if (!phaseProfile.getPhase().equals(phase)) {
+            phaseProfile.stop();
+            projectProfile.addPhaseProfile(phaseProfile);
+            phaseProfile = new PhaseProfile(phase);
+          }
         }
         mojoProfile = new MojoProfile(executionEvent.getMojoExecution());
 
       } else if (executionEvent.getType() == ExecutionEvent.Type.MojoSucceeded || executionEvent.getType() == ExecutionEvent.Type.MojoFailed) {
         mojoProfile.stop();
-        phaseProfile.addMojoProfile(mojoProfile);
-
+        if (phaseProfile == null) {
+          projectProfile.addMojoProfile(mojoProfile);
+        } else {
+          phaseProfile.addMojoProfile(mojoProfile);
+        }
       }
     }
   }

@@ -98,6 +98,12 @@ public class SessionProfileXmlWriter extends SessionProfileFileWriter {
     }
     project.appendChild(phases);
 
+    Element mojos = document.createElement("mojos");
+    for (MojoProfile mojoProfile : projectProfile.getMojoProfiles()) {
+      phases.appendChild(renderMojo(document, mojoProfile));
+    }
+    project.appendChild(mojos);
+
     return project;
   }
 
