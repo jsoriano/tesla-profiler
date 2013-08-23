@@ -9,7 +9,7 @@
   </parent>
   <groupId>org.eclipse.tesla</groupId>
   <artifactId>tesla-profiler</artifactId>
-  <version>0.2</version>
+  <version>0.3</version>
   <name>Tesla :: Profiler</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
