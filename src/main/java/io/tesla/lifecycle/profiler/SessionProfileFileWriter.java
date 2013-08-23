@@ -23,17 +23,18 @@ public class SessionProfileFileWriter implements SessionProfileRenderer {
   public void render(SessionProfile sessionProfile) {
     StringBuilder sb = new StringBuilder();
     for(ProjectProfile pp : sessionProfile.getProjectProfiles()) {
-      sb.append(pp.getId() + "\n");
+      sb.append(pp.getId() + " " + Timer.formatTime(pp.getElapsedTime()) + "\n");
       for(PhaseProfile phaseProfile : pp.getPhaseProfiles()) {
         sb.append("  " + phaseProfile.getPhase() + " " + Timer.formatTime(phaseProfile.getElapsedTime()) + "\n");
         for(MojoProfile mp : phaseProfile.getMojoProfiles()) {
-          sb.append("    " + mp.getId() + Timer.formatTime(mp.getElapsedTime()) + "\n");
+          sb.append("    " + mp.getId() + " " + Timer.formatTime(mp.getElapsedTime()) + "\n");
         }
+
       }
       for(GoalProfile goalProfile : pp.getGoalProfiles()) {
         sb.append("  " + goalProfile.getName() + " " + Timer.formatTime(goalProfile.getElapsedTime()) + "\n");
         for(MojoProfile mp : goalProfile.getMojoProfiles()) {
-          sb.append("    " + mp.getId() + Timer.formatTime(mp.getElapsedTime()) + "\n");
+          sb.append("    " + mp.getId() + " " + Timer.formatTime(mp.getElapsedTime()) + "\n");
         }
       }
       render(sb.toString());

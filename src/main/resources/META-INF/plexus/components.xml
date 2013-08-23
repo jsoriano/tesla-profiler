@@ -6,7 +6,7 @@
       <role-hint>file-writer</role-hint>
       <implementation>io.tesla.lifecycle.profiler.SessionProfileFileWriter</implementation>
       <configuration>
-      	<filename>profile.out</filename>
+        <filename>${profiler.output}</filename>
       </configuration>
     </component>
     <component>
@@ -14,7 +14,7 @@
       <role-hint>xml-writer</role-hint>
       <implementation>io.tesla.lifecycle.profiler.SessionProfileXmlWriter</implementation>
       <configuration>
-      	<filename>profile.xml</filename>
+        <filename>${profiler.xmloutput}</filename>
       </configuration>
     </component>
     <component>
@@ -25,7 +25,7 @@
       <requirements>
         <requirement>
           <role>io.tesla.lifecycle.profiler.SessionProfileRenderer</role>
-          <role-hint>xml-writer</role-hint>
+	  <role-hint>${profiler.renderer}</role-hint>
         </requirement>
       </requirements>
     </component>

@@ -13,6 +13,9 @@
   <name>Tesla :: Profiler</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <profiler.output>System.out</profiler.output>
+    <profiler.xmloutput>profile.xml</profiler.xmloutput>
+    <profiler.renderer>xml-writer</profiler.renderer>
   </properties>
   <dependencies>
     <dependency>
@@ -26,4 +29,16 @@
       <version>4.8.2</version>
     </dependency>
   </dependencies>
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources/META-INF/plexus/</directory>
+        <targetPath>META-INF/plexus/</targetPath>
+        <filtering>true</filtering>
+        <includes>
+          <include>components.xml</include>
+        </includes>
+      </resource>
+    </resources>
+  </build>
 </project>
